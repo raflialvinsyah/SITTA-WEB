@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login SITTA - Universitas Terbuka</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="login-box">
+            <img src="assets/logo ut.png" class="logo" alt="Logo UT">
+            <h2 class="title">SITTA</h2>
+            <h1 class="subtitle">Pemesanan Bahan Ajar Universitas Terbuka</p>
+
+            <form onsubmit="login(); return false;">
+                <label>Email</label>
+                <input type="email" placeholder="ut.ac.id" id="email" required>
+
+                <label>Password</label>
+                <input type="password" placeholder="******" id="password" required>
+
+                <button type="submit" class="btn-login">Masuk</button>
+            </form>
+
+            <div class="links">
+                <a href="#" onclick="lupaPassword()">Lupa password?</a>
+                <a href="#" onclick="daftarAkun()">Belum punya akun?</a>
+            </div>
+        </div>
+    </div>
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+
+</body>
+</html>

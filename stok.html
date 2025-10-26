@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Informasi Bahan Ajar - SITTA</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="left-section">
+      <h1>Informasi Bahan Ajar</h1>
+
+      <div class="greeting-box">
+        <h2>Temukan informasi bahan ajar di sini.</h2>
+        <p>Anda juga bisa kelola data bahan ajar dengan mudah untuk mendukung proses belajar mengajar.</p>
+      </div>
+
+       <button class="btn-dashboard" onclick="window.location.href='dashboard.html'">
+          Kembali ke dashboard
+        </button>
+    </div>
+
+    <div class="right-section">
+      <img src="assets/logoutNBG.png" alt="Logo Universitas Terbuka" class="logo-ut">
+    </div>
+  </header>
+
+  <!-- KONTEN -->
+  <main class="content">
+    <div class="section-header">
+      <h2>Daftar Bahan Ajar</h2>
+      <button class="add-book-btn">Tambah Buku</button>
+    </div>
+
+    <div class="book-container">
+      <div class="book-card">
+        <img src="assets/img/pengantar_komunikasi.jpg" alt="Pengantar Ilmu Komunikasi">
+        <h3>Pengantar Ilmu Komunikasi</h3>
+        <p>BMP Pengantar Ilmu Komunikasi ASIP4301</p>
+        <a href="#" class="detail-btn">Detail Buku →</a>
+      </div>
+
+      <div class="book-card">
+        <img src="assets/img/manajemen_keuangan.jpg" alt="Manajemen Keuangan">
+        <h3>Manajemen Keuangan</h3>
+        <p>BMP Manajemen Keuangan EKMA4216</p>
+        <a href="#" class="detail-btn">Detail Buku →</a>
+      </div>
+
+      <div class="book-card">
+        <img src="assets/img/kepemimpinan.jpg" alt="Kepemimpinan">
+        <h3>Kepemimpinan</h3>
+        <p>BMP Kepemimpinan EKMA4310</p>
+        <a href="#" class="detail-btn">Detail Buku →</a>
+      </div>
+
+      <div class="book-card">
+        <img src="assets/img/mikrobiologi.jpg" alt="Mikrobiologi Dasar">
+        <h3>Mikrobiologi Dasar</h3>
+        <p>BMP Mikrobiologi Dasar BIOL4211</p>
+        <a href="#" class="detail-btn">Detail Buku →</a>
+      </div>
+
+      <div class="book-card">
+        <img src="assets/img/paud_perkembangan.jpeg" alt="Perkembangan Anak Usia Dini">
+        <h3>Perkembangan Anak Usia Dini</h3>
+        <p>BMP Perkembangan Anak Usia Dini PAUD4401</p>
+        <a href="#" class="detail-btn">Detail Buku →</a>
+      </div>
+    </div>
+  </main>
+
+  <!-- MODAL DETAIL BUKU -->
+  <div id="bookModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Detail Buku</h2>
+      <div class="detail-info">
+        <img id="bookImage" src="" alt="Cover Buku">
+        <ul>
+          <li><strong>Nama Buku</strong>: <span id="bookName"></span></li>
+          <li><strong>Kode Barang</strong>: <span id="bookCode"></span></li>
+          <li><strong>Kode Lokasi</strong>: <span id="bookLocation"></span></li>
+          <li><strong>Jenis</strong>: <span id="bookType"></span></li>
+          <li><strong>Edisi</strong>: <span id="bookEdition"></span></li>
+          <li><strong>Stok</strong>: <span id="bookStock"></span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCRIPT -->
+  <script src="js/data.js"></script>
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+
+    // MODAL
+    const modal = document.getElementById("bookModal");
+    const closeBtn = document.querySelector(".close");
+    const detailButtons = document.querySelectorAll(".detail-btn");
+
+    detailButtons.forEach(button => {
+      button.addEventListener("click", (e) => {
+        e.preventDefault();
+        const card = e.target.closest(".book-card");
+        const bookTitle = card.querySelector("h3").textContent.trim();
+
+        if (typeof dataBahanAjar === "undefined") {
+          alert("File data.js belum termuat atau salah path-nya!");
+          return;
+        }
+
+        const book = dataBahanAjar.find(b => b.namaBarang === bookTitle);
+
+        if (book) {
+          document.getElementById("bookImage").src = "assets/" + book.cover;
+          document.getElementById("bookName").textContent = book.namaBarang;
+          document.getElementById("bookCode").textContent = book.kodeBarang;
+          document.getElementById("bookLocation").textContent = book.kodeLokasi;
+          document.getElementById("bookType").textContent = book.jenisBarang;
+          document.getElementById("bookEdition").textContent = book.edisi;
+          document.getElementById("bookStock").textContent = book.stok;
+          modal.style.display = "flex";
+        } else {
+          alert("Data buku tidak ditemukan di file data.js!");
+        }
+      });
+    });
+
+    // Tutup modal
+    closeBtn.onclick = () => (modal.style.display = "none");
+    window.onclick = (e) => {
+      if (e.target === modal) modal.style.display = "none";
+    };
+  });
+  </script>
+
+</body>
+</html>

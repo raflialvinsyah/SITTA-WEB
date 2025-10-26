@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tracking Pengiriman</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <!-- BAGIAN ATAS -->
+    <header class="header">
+    <div class="left-section">
+      <h1>Tracking Pengiriman</h1>
+
+      <div class="greeting-box">
+        <h2>Lacak status pengiriman bahan ajar Anda secara real-time</h2>
+        <p>Pastikan bahan ajar Anda sampai tujuan tepat waktu dengan fitur pelacakan SITTA.</p>
+      </div>
+
+       <button class="btn-dashboard" onclick="window.location.href='dashboard.html'">
+          Kembali ke dashboard
+        </button>
+    </div>
+
+    <div class="right-section">
+      <img src="assets/logoutNBG.png" alt="Logo Universitas Terbuka" class="logo-ut">
+    </div>
+  </header>
+
+  <!-- BAGIAN BAWAH -->
+  <main class="tracking-main">
+    <div class="tracking-box" id="searchBox">
+      <h2>Cari Status Pengiriman Anda</h2>
+      <p>Masukkan Nomor Delivery Order</p>
+      <input type="text" id="doNumber" placeholder="nomor DO" />
+      <button id="btnCek">Cek Pengiriman</button>
+    </div>
+
+    <div class="tracking-result" id="resultBox" style="display: none;">
+      <h2>Detail Pengiriman</h2>
+      <div id="resultContent"></div>
+      <button class="btn-kembali" onclick="location.reload()">Kembali</button>
+    </div>
+  </main>
+
+  <script src="js/data.js"></script>
+  <script>
+    const btnCek = document.getElementById("btnCek");
+    const resultBox = document.getElementById("resultBox");
+    const searchBox = document.getElementById("searchBox");
+    const resultContent = document.getElementById("resultContent");
+
+    btnCek.addEventListener("click", function () {
+      const doNumber = document.getElementById("doNumber").value.trim();
+      if (doNumber === "") {
+        alert("Masukkan Nomor Delivery Order terlebih dahulu!");
+        return;
+      }
+
+      const dataItem = dataTracking[doNumber];
+      if (!dataItem) {
+        alert("Nomor Delivery Order tidak ditemukan!");
+        return;
+      }
+
+      searchBox.style.display = "none";
+      resultBox.style.display = "block";
+
+      let html = `
+        <p><strong>Nomor DO:</strong> ${dataItem.nomorDO}</p>
+        <p><strong>Nama Mahasiswa:</strong> ${dataItem.nama}</p>
+        <p><strong>Status:</strong> <span class="status">${dataItem.status}</span></p>
+        <p><strong>Ekspedisi:</strong> ${dataItem.ekspedisi}</p>
+        <p><strong>Tanggal Kirim:</strong> ${dataItem.tanggalKirim}</p>
+        <p><strong>Jenis Paket:</strong> ${dataItem.paket}</p>
+        <p><strong>Total Pembayaran:</strong> ${dataItem.total}</p>
+        <h3>Riwayat Perjalanan</h3>
+        <div class="timeline">
+      `;
+
+      dataItem.perjalanan.forEach(r => {
+        html += `
+          <div class="timeline-item">
+            <strong>${r.waktu}</strong>
+            <div>${r.keterangan}</div>
+          </div>
+        `;
+      });
+
+      html += `</div>`;
+      resultContent.innerHTML = html;
+    });
+  </script>
+</body>
+</html>
